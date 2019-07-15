@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <title>Tic-Tac-Toe</title>
+    <meta charset="UTF-8">
+    <link href="style.css" rel="stylesheet">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> 
+</head>
+
+<body>
+    <header class="header header-win--color header-draw--color">
+        <h1></h1>
+    </header>
+    <div class="main-content">
+
+        <form class="main-content__player-form" action="#" onsubmit="startGame()">
+            <div class="player-form__player-div">
+                <label for="player1-name">Player(1) Name:</label>
+                <input type="text" id="player1-name" class="player-div__player-name" value="John Doe" required>
+                <label for="player1-sign">Sign:</label>
+                <input type="text" id="player1-sign" maxlength="1" class="player-div__player-sign" value="X" required>
+            </div>
+
+            <div class="player-form__player-div">
+                <label for="player2-name">Player(2) Name:</label>
+                <input type="text" id="player2-name" class="player-div__player-name" value="Jason Bourne" required>
+                <label for="player2-sign">Sign:</label>
+                <input type="text" id="player2-sign" maxlength="1" class="player-div__player-sign" value="O" required>
+            </div>
+
+            <div class="player-form__buttons-div">
+                <input type="submit" value="Start Game" class="button start-button button--red-ish-border">
+                <button type="button" class="button history-button button--red-ish-border" onclick="playGameHistory()">History</button>                 
+                <button type="button" class="button reset-button button--red-ish-border" onclick="resetGame()">Reset</button> 
+            </div>
+                       
+            
+        </form>
+        
+        <table class="main-content__game-board">
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

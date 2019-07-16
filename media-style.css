@@ -1,0 +1,136 @@
+
+
+
+@media only screen and (min-width: 1400px){
+    .main-content__player-form{
+        left: 1em;
+        top: 1em
+    }
+}
+
+@media only screen and (min-width: 1500px){
+    .main-content__player-form{
+        font-size: 1.3em;
+    }
+    .player-form__player-div input{
+        font-size: 0.9em;
+    }
+
+    .main-content__game-board td{
+        width: 2.2em;
+        height: 2.2em;
+        font-size: 4em;
+    }
+}
+@media only screen and (min-width: 1600px){
+    .main-content__player-form{
+        font-size: 1.3em;
+    }
+    .player-form__player-div input{
+        font-size: 0.9em;
+    }
+
+    .main-content__game-board td{
+        border: 0.1em solid var(--board-color);
+        width: 2.2em;
+        height: 2.2em;
+        font-size: 4em;
+    }
+}
+
+
+
+@media only screen and (min-width: 1700px){
+    .main-content__player-form{
+        font-size: 1.4em;
+    }
+
+    .player-form__player-div input{
+        font-size: 1em;
+    }
+
+    .main-content__game-board td{
+        border: 0.1em solid var(--board-color);
+        width: 2.5em;
+        height: 2.5em;
+        font-size: 4.2em;
+    }
+}
+
+@media only screen and (min-width: 1800px){
+    .main-content__player-form{
+        font-size: 1.7em;
+        
+    }
+    .player-form__player-div input, label{
+        font-size: 0.8em;
+    }
+
+    .main-content__game-board td{
+        border: 0.1em solid var(--board-color);
+        width: 2.6em;
+        height: 2.6em;
+        font-size: 4.3em;
+    }
+}
+
+@media only screen and (min-width: 1900px){
+    .main-content__player-form{
+        font-size: 1.8em;
+    }
+
+    .player-form__player-div input, label{
+        font-size: 0.9em;
+    }
+    .main-content__game-board td{        
+        border: 0.1em solid var(--board-color);
+        width: 2.7em;
+        height: 2.7em;
+        font-size: 4.4em;
+    }
+
+    .header{
+        font-size: 2em;
+    }
+}
+
+@media only screen and (min-width: 2000px){
+    .main-content__player-form{
+        font-size: 1.9em;
+    }
+
+    .player-form__player-div input, label{
+        font-size: 1em;
+    }
+
+    .main-content__game-board td{        
+        border: 0.15em solid var(--board-color);
+        width: 2.8em;
+        height: 2.8em;
+        font-size: 4.8em;
+    }
+    .header{
+        font-size: 2.1em;
+    }
+}
+
+@media only screen and (min-width: 2100px){
+    .main-content__player-form{
+        font-size: 1.9em;
+    }
+
+    .player-form__player-div input, label{
+        font-size: 1em;
+    }
+
+    .main-content__game-board td{        
+        border: 0.15em solid var(--board-color);
+        width: 2.8em;
+        height: 2.8em;
+        font-size: 4.8em;
+    }
+
+    .header{
+        font-size: 2.2em;
+    }
+}

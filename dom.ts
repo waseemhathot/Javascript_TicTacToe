@@ -35,7 +35,6 @@ function resetGame() {
 }
 
 function initGame(gameH: gameHolder, elementsH: domElementsHolder) {
-
     disableButton(elementsH.startButton);
     disableButton(elementsH.historyButton);
 
@@ -52,7 +51,6 @@ function initGame(gameH: gameHolder, elementsH: domElementsHolder) {
     playerName = (<HTMLInputElement>document.querySelector('#player2-name')).value;
     playerSign = (<HTMLInputElement>document.querySelector('#player2-sign')).value;
     gameH.game.addPlayer(new Player(playerName, playerSign));
-
 
     let i: number;
     for (i = 0; i < elementsH.boardTableCells.length; i++) {
@@ -76,27 +74,19 @@ function initGame(gameH: gameHolder, elementsH: domElementsHolder) {
                     declareWinner(gameH, elementsH, row, col);
                     enableButton(elementsH.historyButton);
                 }
-
             }
         });
     }
-
 }
 
 function addMoveToBoard(gameH: gameHolder, elementsH: domElementsHolder, cell: HTMLTableCellElement) {
     elementsH.header.textContent = `${gameH.game.getPlayers()[(gameH.game.getMoveCounter()) % 2].getName()}'s Turn`;
-    if (gameH.game.getMoveCounter() % 2 === 0) {
-        elementsH.header.classList.remove("header-win--color");
-        elementsH.header.classList.remove("header-draw--color");
-        elementsH.header.classList.remove("player2-sign--color");
-        elementsH.header.classList.add("player1-sign--color");
-    }
 
+    if (gameH.game.getMoveCounter() % 2 === 0) {
+        addPlayerHeader(elementsH, 1);
+    }
     else {
-        elementsH.header.classList.remove("header-win--color");
-        elementsH.header.classList.remove("header-draw--color");
-        elementsH.header.classList.remove("player1-sign--color");
-        elementsH.header.classList.add("player2-sign--color");
+        addPlayerHeader(elementsH, 2);
     }
 
     cell.textContent = gameH.game.getPlayers()[(gameH.game.getMoveCounter() - 1) % 2].getRole();
@@ -110,45 +100,69 @@ function addMoveToBoard(gameH: gameHolder, elementsH: domElementsHolder, cell: H
 }
 
 function declareDraw(gameH: gameHolder, elementsH: domElementsHolder) {
-    elementsH.header.textContent = "GAME OVER: DRAW!";
-    elementsH.header.classList.remove("player1-sign--color");
-    elementsH.header.classList.remove("player2-sign--color");
-    elementsH.header.classList.add("header-draw--color");
-    elementsH.header.classList.remove("header-win--color");
+    addDrawHeader(elementsH);
 }
 
 function declareWinner(gameH: gameHolder, elementsH: domElementsHolder, row: number, col: number) {
-    elementsH.header.textContent = `Game Over: ${gameH.game.getPlayers()[(gameH.game.getMoveCounter() - 1) % 2].getName()} WON!`;
-    elementsH.header.classList.remove("player1-sign--color");
-    elementsH.header.classList.remove("player2-sign--color");
-    elementsH.header.classList.add("header-win--color");
-    elementsH.header.classList.remove("header-draw--color");
 
+    addWinHeader(elementsH, gameH);
 
     if (gameH.game.getWinningMove() === WinningMove.diagLeft) {
-        domElements.boardTable.rows[0].cells[0].classList.add("win-color");
-        domElements.boardTable.rows[1].cells[1].classList.add("win-color");
-        domElements.boardTable.rows[2].cells[2].classList.add("win-color");
+        elementsH.boardTable.rows[0].cells[0].classList.add("win-color");
+        elementsH.boardTable.rows[1].cells[1].classList.add("win-color");
+        elementsH.boardTable.rows[2].cells[2].classList.add("win-color");
     }
 
     if (gameH.game.getWinningMove() === WinningMove.diagRight) {
-        domElements.boardTable.rows[0].cells[2].classList.add("win-color");
-        domElements.boardTable.rows[1].cells[1].classList.add("win-color");
-        domElements.boardTable.rows[2].cells[0].classList.add("win-color");
+        elementsH.boardTable.rows[0].cells[2].classList.add("win-color");
+        elementsH.boardTable.rows[1].cells[1].classList.add("win-color");
+        elementsH.boardTable.rows[2].cells[0].classList.add("win-color");
     }
 
     if (gameH.game.getWinningMove() === WinningMove.col) {
         let i;
         for (i = 0; i < gameH.game.getRows(); i++) {
-            domElements.boardTable.rows[i].cells[col].classList.add("win-color");
+            elementsH.boardTable.rows[i].cells[col].classList.add("win-color");
         }
     }
 
     if (gameH.game.getWinningMove() === WinningMove.row) {
         let i;
         for (i = 0; i < gameH.game.getCols(); i++) {
-            domElements.boardTable.rows[row].cells[i].classList.add("win-color");
+            elementsH.boardTable.rows[row].cells[i].classList.add("win-color");
         }
+    }
+}
+
+
+function addWinHeader(elementsH: domElementsHolder, gameH: gameHolder) {
+    elementsH.header.textContent = `Game Over: ${gameH.game.getPlayers()[(gameH.game.getMoveCounter() - 1) % 2].getName()} WON!`;
+    elementsH.header.classList.remove("player1-sign--color");
+    elementsH.header.classList.remove("player2-sign--color");
+    elementsH.header.classList.remove("header-draw--color");
+    elementsH.header.classList.add("header-win--color");
+}
+
+function addDrawHeader(elementsH: domElementsHolder) {
+    elementsH.header.textContent = "GAME OVER: DRAW!";
+    elementsH.header.classList.remove("player1-sign--color");
+    elementsH.header.classList.remove("player2-sign--color");
+    elementsH.header.classList.remove("header-win--color");
+    elementsH.header.classList.add("header-draw--color");
+}
+
+function addPlayerHeader(elementsH: domElementsHolder, playerNum: number) {
+    if (playerNum === 1) {
+        elementsH.header.classList.remove("header-win--color");
+        elementsH.header.classList.remove("header-draw--color");
+        elementsH.header.classList.remove("player2-sign--color");
+        elementsH.header.classList.add("player1-sign--color");
+    }
+    else {
+        elementsH.header.classList.remove("header-win--color");
+        elementsH.header.classList.remove("header-draw--color");
+        elementsH.header.classList.remove("player1-sign--color");
+        elementsH.header.classList.add("player2-sign--color");
     }
 }
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -164,10 +178,11 @@ async function playGameHistory() {
 async function gameHistory(gameH: gameHolder, elementsH: domElementsHolder) {
     resetBoard(elementsH);
     const gameHistory: number[][] = gameH.game.getGameHistory();
-    let i;
     let simGame: Game = new Game(3, 3);
     simGame.addPlayer(gameH.game.getPlayers()[0]);
-    simGame.addPlayer(gameH.game.getPlayers()[1])
+    simGame.addPlayer(gameH.game.getPlayers()[1]);
+
+    let i;
     for (i = 0; i < gameH.game.getGameHistory().length; i++) {
         const move: number[] = gameHistory[i];
         const cell: HTMLTableCellElement = elementsH.boardTable.rows[move[0]].cells[move[1]];
@@ -182,7 +197,6 @@ async function gameHistory(gameH: gameHolder, elementsH: domElementsHolder) {
 }
 
 function repeatHistory(cellIndex: number, move: number[], simGame: Game, cell: HTMLTableCellElement, gameH: gameHolder) {
-
     simGame.nextMove(move[0], move[1]);
     cell.textContent = gameH.game.getPlayers()[cellIndex % 2].getRole();
     cell.style.animation = 'none';

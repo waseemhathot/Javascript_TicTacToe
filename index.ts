@@ -1,3 +1,4 @@
+
 enum WinningMove {diagLeft, diagRight, col, row};   
 enum GameStatus {inProgress, Completed};
 
@@ -15,7 +16,6 @@ class Player {
 }
 
 class Board {
-
     gameBoard: string[][] = [];
 
     constructor(private rows, private cols) {
@@ -26,7 +26,6 @@ class Board {
                 this.gameBoard[i][j] = ' ';
             }
         }
-
     }
 
     print() {
@@ -57,7 +56,6 @@ class Game {
         this.moveCounter = 0;
         this.board = new Board(rows, cols)
         this.status = GameStatus.inProgress;
-
     }
 
     getGameHistory(){
@@ -88,7 +86,6 @@ class Game {
     }
 
     addPlayer(player: Player) {
-
         if (this.players.length === 0) {
             this.players[0] = player;
         }
@@ -106,14 +103,13 @@ class Game {
     }
 
     nextMove(row: number, col: number): boolean {
-
         if (this.board.gameBoard[row][col] !== ' ' || this.gameWon) {
             return false;
         }
 
         this.board.gameBoard[row][col] = this.players[this.moveCounter % 2].getRole();
-
         this.moveCounter++;
+
         this.gameWon = this.isWinningMove(row, col);
         if (this.gameWon) {
             this.status = GameStatus.Completed;
@@ -157,8 +153,6 @@ class Game {
     }
 
     printSummary() {
-        let i;
-
         if(this.gameWon){
             console.log(`${GameStatus[this.status]} - ${this.gameWinner} Won`);            
         }
@@ -170,8 +164,8 @@ class Game {
         else{
             console.log(`${GameStatus[this.status]} - Game is in progress`);                        
         }
-
-
+        
+        let i;        
         for (i = 0; i < this.moveCounter; i++) {
             if (i % 2 === 0) {
                 console.log(`${this.players[0].getName()} drew ${this.players[0].getRole()} in ${this.gameHistory[i]}`)
@@ -179,11 +173,8 @@ class Game {
             else {
                 console.log(`${this.players[1].getName()} drew ${this.players[1].getRole()} in ${this.gameHistory[i]}`)
             }
-        }
-
-       
+        }    
     }
-
 }
 
 
@@ -201,10 +192,10 @@ function checkDiagLeft(row: number, col: number, game: Game, moveRole: string): 
             counter++;
         }
     }
+
     if (counter === game.getRows()) {
         return true;
     }
-
     return false;
 }
 
@@ -226,7 +217,6 @@ function checkDiagRight(row: number, col: number, game: Game, moveRole: string):
     if (counter === game.getRows()) {
         return true;
     }
-
     return false;
 }
 
@@ -241,7 +231,6 @@ function checkCol(row: number, col: number, game: Game, moveRole: string): boole
     if (counter === game.getRows()) {
         return true;
     }
-
     return false
 }
 
@@ -256,7 +245,6 @@ function checkRow(row: number, col: number, game: Game, moveRole: string): boole
     if (counter === game.getRows()) {
         return true;
     }
-
     return false
 }
     

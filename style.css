@@ -2,7 +2,7 @@
     --background-color: #0E0B16;
     --board-color: #C3073F;
 }
-
+    
 
 html{
     background-color: var(--background-color);
@@ -12,9 +12,6 @@ html{
 }
 
 body{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     width: 99%;
     height: 100%;
 }
@@ -34,7 +31,7 @@ body{
 
 .main-content{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
@@ -44,13 +41,12 @@ body{
 
 .main-content__game-board{
     border-collapse: collapse;
-    top: 15em;
     border-style: hidden;
     margin: 5em;
 }
 
 .main-content__game-board td{
-    border: 0.1em solid var(--board-color);
+    border: 0.08em solid var(--board-color);
     width: 2em;
     height: 2em;
     text-align: center;
@@ -58,10 +54,10 @@ body{
 }
 
 .win-color{
-    background-color: #1d1145;
+    background-color: #EFE2BA
+    /* #CAFAFE */
+    /* #1d1145; */
 }
-
-
 
 .main-content__player-form{
     display: flex;
@@ -69,7 +65,7 @@ body{
     align-items: center;
     color: black;
     padding: 1em;
-    border: 0.2em solid var(--board-color);
+    border: 0.15em solid var(--board-color);
     border-radius: 0.1em;
     font-style: italic;
     font-weight: bold;
@@ -95,7 +91,7 @@ body{
     padding: auto;
     text-align: center;
     font-weight: bold;    
-    border: 0.2em solid var(--board-color);
+    border: 0.12em solid var(--board-color);
     outline: none;
     display: block;    
 }
@@ -103,7 +99,7 @@ body{
 .player-div__player-name{
     font-weight: bold;
     padding: 0.3em;
-    border: 0.2em solid var(--board-color);
+    border: 0.12em solid var(--board-color);
     outline: none;
     display: block;    
 }
@@ -120,12 +116,12 @@ body{
 }
 
 .button--red-ish-border{
-    border: 0.3em solid var(--board-color); 
+    border: 0.1em solid var(--board-color); 
        
 }
 
 .button--grey-border{
-    border: 0.3em solid grey;  
+    border: 0.1em solid grey;  
     opacity: 0.3;      
 }
 

@@ -15,10 +15,10 @@
  
     <div class="main-content">
         <header class="header header-win--color header-draw--color">
-                <h1></h1>
+                <h1>Choose Player Names</h1>
         </header>
-        
-        <form class="main-content__player-form" action="#" onsubmit="startGame()">
+
+        <div class="main-content__player-form" action="#">
             <div class="player-form__player-div">
                 <label for="player1-name">Player(1) Name:</label>
                 <input type="text" id="player1-name" class="player-div__player-name" value="John Doe" required>
@@ -34,13 +34,13 @@
             </div>
 
             <div class="player-form__buttons-div">
-                <input type="submit" value="Start Game" class="button start-button button--red-ish-border">
+                <button type="button" class="button start-button button--red-ish-border" onclick="startGame()">Start Game</button>
                 <button type="button" class="button history-button button--red-ish-border" onclick="playGameHistory()">History</button>                 
                 <button type="button" class="button reset-button button--red-ish-border" onclick="resetGame()">Reset</button> 
             </div>
                        
             
-        </form>
+        </div>
         
         <table class="main-content__game-board">
             <tr>

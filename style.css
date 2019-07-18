@@ -55,8 +55,6 @@ body{
 
 .win-color{
     background-color: #EFE2BA
-    /* #CAFAFE */
-    /* #1d1145; */
 }
 
 .main-content__player-form{
@@ -112,9 +110,16 @@ body{
     font-weight: bold;
     outline: none;
     width: 9em;  
-    margin: 0.3em;     
+    margin: 0.3em;
 }
 
+.button:active{
+    transform: scale(1.05);
+}
+
+.button:hover{
+    cursor: pointer;
+}
 .button--red-ish-border{
     border: 0.1em solid var(--board-color); 
        
@@ -123,11 +128,6 @@ body{
 .button--grey-border{
     border: 0.1em solid grey;  
     opacity: 0.3;      
-}
-
-
-.button:active{
-    transform: translateY(0.25em);
 }
 
 .player1-sign--color{

@@ -12,6 +12,22 @@ var GameStatus;
     GameStatus[GameStatus["Completed"] = 1] = "Completed";
 })(GameStatus || (GameStatus = {}));
 ;
+var Move = /** @class */ (function () {
+    function Move(row, col) {
+        this.row = row;
+        this.col = col;
+    }
+    Move.prototype.getRow = function () {
+        return this.row;
+    };
+    Move.prototype.getCol = function () {
+        return this.col;
+    };
+    Move.prototype.getMoveString = function () {
+        return "(" + this.row + ", " + this.col + ")";
+    };
+    return Move;
+}());
 var Player = /** @class */ (function () {
     function Player(name, role) {
         this.name = name;
@@ -110,9 +126,7 @@ var Game = /** @class */ (function () {
             this.status = GameStatus.Completed;
             this.gameWinner += this.players[this.moveCounter % 2].getName();
         }
-        this.gameHistory[this.moveCounter - 1] = [];
-        this.gameHistory[this.moveCounter - 1][0] = row;
-        this.gameHistory[this.moveCounter - 1][1] = col;
+        this.gameHistory[this.moveCounter - 1] = new Move(row, col);
         return true;
     };
     Game.prototype.isWinningMove = function (row, col) {
@@ -139,7 +153,6 @@ var Game = /** @class */ (function () {
         return false;
     };
     Game.prototype.printSummary = function () {
-        var i;
         if (this.gameWon) {
             console.log(GameStatus[this.status] + " - " + this.gameWinner + " Won");
         }
@@ -149,12 +162,13 @@ var Game = /** @class */ (function () {
         else {
             console.log(GameStatus[this.status] + " - Game is in progress");
         }
+        var i;
         for (i = 0; i < this.moveCounter; i++) {
             if (i % 2 === 0) {
-                console.log(this.players[0].getName() + " drew " + this.players[0].getRole() + " in " + this.gameHistory[i]);
+                console.log(this.players[0].getName() + " drew " + this.players[0].getRole() + " in " + this.gameHistory[i].getMoveString());
             }
             else {
-                console.log(this.players[1].getName() + " drew " + this.players[1].getRole() + " in " + this.gameHistory[i]);
+                console.log(this.players[1].getName() + " drew " + this.players[1].getRole() + " in " + this.gameHistory[i].getMoveString());
             }
         }
     };

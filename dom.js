@@ -13,8 +13,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -43,11 +43,13 @@ var domElements = {
     header: document.querySelector(".header h1"),
     historyButton: document.querySelector(".history-button")
 };
+validateElements(domElements);
 disableButton(domElements.historyButton);
 function startGame() {
     initGame(domGame, domElements);
 }
 function resetGame() {
+    console.log("reseting");
     location.reload();
 }
 function initGame(gameH, elementsH) {
@@ -194,7 +196,7 @@ function gameHistory(gameH, elementsH) {
                             switch (_a.label) {
                                 case 0:
                                     move = gameHistory[i];
-                                    cell = elementsH.boardTable.rows[move[0]].cells[move[1]];
+                                    cell = elementsH.boardTable.rows[move.getRow()].cells[move.getCol()];
                                     promise = new Promise(function (resolve, reject) {
                                         setTimeout(function () {
                                             repeatHistory(i, move, simGame, cell, gameH);
@@ -225,7 +227,7 @@ function gameHistory(gameH, elementsH) {
     });
 }
 function repeatHistory(cellIndex, move, simGame, cell, gameH) {
-    simGame.nextMove(move[0], move[1]);
+    simGame.nextMove(move.getRow(), move.getCol());
     cell.textContent = gameH.game.getPlayers()[cellIndex % 2].getRole();
     cell.style.animation = 'none';
     cell.offsetHeight;
@@ -256,4 +258,9 @@ function enableButton(button) {
     button.disabled = false;
     button.classList.remove("button--grey-border");
     button.classList.add("button--red-ish-border");
+}
+function validateElements(elementsH) {
+    if (!elementsH.startButton || !elementsH.boardTableCells || !elementsH.boardTable || !elementsH.header || !elementsH.historyButton) {
+        throw new Error('one or more of the elements doesnt exist');
+    }
 }

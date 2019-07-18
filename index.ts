@@ -2,6 +2,21 @@
 enum WinningMove {diagLeft, diagRight, col, row};   
 enum GameStatus {inProgress, Completed};
 
+class Move{
+    constructor(private row: number, private col: number){}
+    getRow(){
+        return this.row;
+    }
+
+    getCol(){
+        return this.col;
+    }
+
+    getMoveString(){
+        return `(${this.row}, ${this.col})`
+    }
+}
+
 class Player {
 
     constructor(private name: string, private role: string) { }
@@ -44,7 +59,7 @@ class Game {
 
     private players: Player[];
     private gameWon: boolean = false;
-    private gameHistory: number[][] = [];
+    private gameHistory: Move[] = [];
     private moveCounter: number;
     private gameWinner: string = '';
     private winningMove: WinningMove;
@@ -116,9 +131,7 @@ class Game {
             this.gameWinner += this.players[this.moveCounter % 2].getName();
         }
 
-        this.gameHistory[this.moveCounter - 1] = [];
-        this.gameHistory[this.moveCounter - 1][0] = row;
-        this.gameHistory[this.moveCounter - 1][1] = col;
+        this.gameHistory[this.moveCounter - 1] = new Move(row, col);
 
         return true;
     }
@@ -168,10 +181,10 @@ class Game {
         let i;        
         for (i = 0; i < this.moveCounter; i++) {
             if (i % 2 === 0) {
-                console.log(`${this.players[0].getName()} drew ${this.players[0].getRole()} in ${this.gameHistory[i]}`)
+                console.log(`${this.players[0].getName()} drew ${this.players[0].getRole()} in ${this.gameHistory[i].getMoveString()}`)
             }
             else {
-                console.log(`${this.players[1].getName()} drew ${this.players[1].getRole()} in ${this.gameHistory[i]}`)
+                console.log(`${this.players[1].getName()} drew ${this.players[1].getRole()} in ${this.gameHistory[i].getMoveString()}`)
             }
         }    
     }

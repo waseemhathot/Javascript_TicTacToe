@@ -1,4 +1,5 @@
 
+
 type gameHolder = {
     game: Game
 }
@@ -23,6 +24,7 @@ const domElements: domElementsHolder = {
     historyButton: document.querySelector(".history-button") as HTMLElement
 };
 
+validateElements(domElements);
 disableButton(domElements.historyButton);
 
 function startGame() {
@@ -31,6 +33,7 @@ function startGame() {
 
 
 function resetGame() {
+    console.log("reseting");
     location.reload();
 }
 
@@ -51,7 +54,7 @@ function initGame(gameH: gameHolder, elementsH: domElementsHolder) {
     playerName = (<HTMLInputElement>document.querySelector('#player2-name')).value;
     playerSign = (<HTMLInputElement>document.querySelector('#player2-sign')).value;
     gameH.game.addPlayer(new Player(playerName, playerSign));
-
+    
     let i: number;
     for (i = 0; i < elementsH.boardTableCells.length; i++) {
         elementsH.boardTableCells[i].addEventListener("click", function () {
@@ -177,15 +180,15 @@ async function playGameHistory() {
 
 async function gameHistory(gameH: gameHolder, elementsH: domElementsHolder) {
     resetBoard(elementsH);
-    const gameHistory: number[][] = gameH.game.getGameHistory();
+    const gameHistory: Move[] = gameH.game.getGameHistory();
     let simGame: Game = new Game(3, 3);
     simGame.addPlayer(gameH.game.getPlayers()[0]);
     simGame.addPlayer(gameH.game.getPlayers()[1]);
 
     let i;
     for (i = 0; i < gameH.game.getGameHistory().length; i++) {
-        const move: number[] = gameHistory[i];
-        const cell: HTMLTableCellElement = elementsH.boardTable.rows[move[0]].cells[move[1]];
+        const move: Move = gameHistory[i];
+        const cell: HTMLTableCellElement = elementsH.boardTable.rows[move.getRow()].cells[move.getCol()];
         let promise = new Promise((resolve, reject) => {
             setTimeout(() => {
                 repeatHistory(i, move, simGame, cell, gameH);
@@ -196,8 +199,8 @@ async function gameHistory(gameH: gameHolder, elementsH: domElementsHolder) {
     }
 }
 
-function repeatHistory(cellIndex: number, move: number[], simGame: Game, cell: HTMLTableCellElement, gameH: gameHolder) {
-    simGame.nextMove(move[0], move[1]);
+function repeatHistory(cellIndex: number, move: Move, simGame: Game, cell: HTMLTableCellElement, gameH: gameHolder) {
+    simGame.nextMove(move.getRow(), move.getCol());
     cell.textContent = gameH.game.getPlayers()[cellIndex % 2].getRole();
     cell.style.animation = 'none';
     cell.offsetHeight;
@@ -232,4 +235,11 @@ function enableButton(button) {
     button.disabled = false;
     button.classList.remove("button--grey-border");
     button.classList.add("button--red-ish-border");
+}
+
+
+function validateElements(elementsH: domElementsHolder){
+    if(!elementsH.startButton || !elementsH.boardTableCells || !elementsH.boardTable || !elementsH.header || !elementsH.historyButton){
+        throw new Error('one or more of the elements doesnt exist');
+    }
 }

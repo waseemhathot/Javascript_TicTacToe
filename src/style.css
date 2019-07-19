@@ -1,0 +1,169 @@
+:root{
+    --background-color: #0E0B16;
+    --board-color: #C3073F;
+}
+    
+
+html{
+    background-color: var(--background-color);
+    overflow-x: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+body{
+    width: 99%;
+    height: 100%;
+}
+
+.header{
+    font-style: italic;
+    font-size: 1.5em;
+}
+
+.header-win--color{
+    color: #F3D250;
+}
+
+.header-draw--color{
+    color: #FC4445
+}
+
+.main-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.main-content__game-board{
+    border-collapse: collapse;
+    border-style: hidden;
+    margin: 5em;
+}
+
+.main-content__game-board td{
+    border: 0.08em solid var(--board-color);
+    width: 2em;
+    height: 2em;
+    text-align: center;
+    font-size: 4em;
+}
+
+.win-color{
+    background-color: #EFE2BA
+}
+
+.main-content__player-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: black;
+    padding: 1em;
+    border: 0.15em solid var(--board-color);
+    border-radius: 0.1em;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 1.3em;
+    position: fixed;
+    top: 1em;
+    left: 2em;
+    background-color: white;
+}
+
+.player-form__player-div{
+    padding: 1em;
+}
+
+.player-form__buttons-div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.player-div__player-sign{
+    width: 2em;
+    height: 2em;
+    padding: auto;
+    text-align: center;
+    font-weight: bold;    
+    border: 0.12em solid var(--board-color);
+    outline: none;
+    display: block;    
+}
+
+.player-div__player-name{
+    font-weight: bold;
+    padding: 0.3em;
+    border: 0.12em solid var(--board-color);
+    outline: none;
+    display: block;    
+}
+
+.button{
+    box-sizing: border-box;    
+    background-color: white;
+    font-size: 1em;
+    padding: 1em;
+    font-weight: bold;
+    outline: none;
+    width: 9em;  
+    margin: 0.3em;
+}
+
+.button:active{
+    transform: scale(1.05);
+}
+
+.button:hover{
+    cursor: pointer;
+}
+.button--red-ish-border{
+    border: 0.1em solid var(--board-color); 
+       
+}
+
+.button--grey-border{
+    border: 0.1em solid grey;  
+    opacity: 0.3;      
+}
+
+.player1-sign--color{
+    /* color: #94f0f1; */
+    color: #7dce94;
+}
+
+.player2-sign--color{
+    color: #e62739;
+}
+
+.sign--animate{
+    -webkit-animation-name: sign; 
+    -webkit-animation-duration: 1.2s; 
+    animation-name: sign;
+    animation-duration: 0.9s;
+}
+
+@-webkit-keyframes sign {
+    0% {
+        opacity: 0;
+        transform: rotate(-180deg)
+    }
+    100%{
+        opacity: 1;
+        transorm: rotate(-180deg);        
+    }
+}
+  
+@keyframes sign {
+    0% {
+        opacity: 0;
+        transform: rotate(-180deg)
+    }
+    100%{
+        opacity: 1;
+        transorm: rotate(-180deg);        
+    }
+}

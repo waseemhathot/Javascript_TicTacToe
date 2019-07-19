@@ -7,19 +7,19 @@ const domGame: gameHolder = {
 };
 
 type domElementsHolder = {
-    startButton: HTMLElement,
+    startButton: HTMLButtonElement,
     boardTableCells: NodeList,
     boardTable: HTMLTableElement,
     header: HTMLElement,
-    historyButton: HTMLElement
+    historyButton: HTMLButtonElement
 }
 
 const domElements: domElementsHolder = {
-    startButton: document.querySelector(".start-button") as HTMLElement,
+    startButton: document.querySelector(".start-button") as HTMLButtonElement,
     boardTableCells: document.querySelectorAll('.main-content__game-board td'),
     boardTable: document.querySelector(".main-content__game-board") as HTMLTableElement,
     header: document.querySelector(".header h1") as HTMLElement,
-    historyButton: document.querySelector(".history-button") as HTMLElement
+    historyButton: document.querySelector(".history-button") as HTMLButtonElement
 };
 
 validateElements(domElements);
@@ -37,7 +37,6 @@ function resetGame() {
 function initGame(gameH: gameHolder, elementsH: domElementsHolder) {
     disableButton(elementsH.startButton);
     disableButton(elementsH.historyButton);
-
 
     let playerName: string = (<HTMLInputElement>document.querySelector('#player1-name')).value;
     let playerSign: string = (<HTMLInputElement>document.querySelector('#player1-sign')).value;
@@ -214,13 +213,13 @@ function resetBoard(elementsH: domElementsHolder) {
 //////////////////////////////////////////////////////////////////////////////
 
 
-function disableButton(button) {
+function disableButton(button: HTMLButtonElement) {
     button.disabled = true;
     button.classList.remove("button--red-is-border");
     button.classList.add("button--grey-border");
 }
 
-function enableButton(button) {
+function enableButton(button: HTMLButtonElement) {
     button.disabled = false;
     button.classList.remove("button--grey-border");
     button.classList.add("button--red-ish-border");

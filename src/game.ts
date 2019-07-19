@@ -1,5 +1,3 @@
-
-
 enum WinningMove { diagLeft, diagRight, col, row };
 enum GameStatus { inProgress, Completed };
 
@@ -55,7 +53,6 @@ class Board {
 }
 
 class Game {
-
     private players: Player[];
     private gameWon: boolean = false;
     private gameHistory: Move[] = [];

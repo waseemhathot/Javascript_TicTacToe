@@ -1,5 +1,3 @@
-
-
 type gameHolder = {
     game: Game
 }
@@ -33,7 +31,6 @@ function startGame() {
 
 
 function resetGame() {
-    console.log("reseting");
     location.reload();
 }
 
@@ -41,11 +38,9 @@ function initGame(gameH: gameHolder, elementsH: domElementsHolder) {
     disableButton(elementsH.startButton);
     disableButton(elementsH.historyButton);
 
-    let playerName: string;
-    let playerSign: string;
 
-    playerName = (<HTMLInputElement>document.querySelector('#player1-name')).value;
-    playerSign = (<HTMLInputElement>document.querySelector('#player1-sign')).value;
+    let playerName: string = (<HTMLInputElement>document.querySelector('#player1-name')).value;
+    let playerSign: string = (<HTMLInputElement>document.querySelector('#player1-sign')).value;
     gameH.game.addPlayer(new Player(playerName, playerSign));
 
     elementsH.header.textContent = `${playerName}'s Turn`;
@@ -55,14 +50,13 @@ function initGame(gameH: gameHolder, elementsH: domElementsHolder) {
     playerSign = (<HTMLInputElement>document.querySelector('#player2-sign')).value;
     gameH.game.addPlayer(new Player(playerName, playerSign));
     
-    let i: number;
-    for (i = 0; i < elementsH.boardTableCells.length; i++) {
+    for (let i = 0; i < elementsH.boardTableCells.length; i++) {
         elementsH.boardTableCells[i].addEventListener("click", function () {
             if (gameH.game.getGameWon() === false) {
-                let tableRow: HTMLTableRowElement = <HTMLTableRowElement>(this.parentNode);
-                let tableCell: HTMLTableCellElement = (<HTMLTableCellElement>this);
-                let row: number = tableRow.rowIndex;
-                let col: number = tableCell.cellIndex;
+                const tableRow: HTMLTableRowElement = <HTMLTableRowElement>(this.parentNode);
+                const tableCell: HTMLTableCellElement = (<HTMLTableCellElement>this);
+                const row: number = tableRow.rowIndex;
+                const col: number = tableCell.cellIndex;
 
                 if (gameH.game.nextMove(row, col)) {
                     addMoveToBoard(gameH, elementsH, tableCell);
@@ -123,15 +117,13 @@ function declareWinner(gameH: gameHolder, elementsH: domElementsHolder, row: num
     }
 
     if (gameH.game.getWinningMove() === WinningMove.col) {
-        let i;
-        for (i = 0; i < gameH.game.getRows(); i++) {
+        for (let i = 0; i < gameH.game.getRows(); i++) {
             elementsH.boardTable.rows[i].cells[col].classList.add("win-color");
         }
     }
 
     if (gameH.game.getWinningMove() === WinningMove.row) {
-        let i;
-        for (i = 0; i < gameH.game.getCols(); i++) {
+        for (let i = 0; i < gameH.game.getCols(); i++) {
             elementsH.boardTable.rows[row].cells[i].classList.add("win-color");
         }
     }
@@ -181,21 +173,19 @@ async function playGameHistory() {
 async function gameHistory(gameH: gameHolder, elementsH: domElementsHolder) {
     resetBoard(elementsH);
     const gameHistory: Move[] = gameH.game.getGameHistory();
-    let simGame: Game = new Game(3, 3);
+    const simGame: Game = new Game(3, 3);
     simGame.addPlayer(gameH.game.getPlayers()[0]);
     simGame.addPlayer(gameH.game.getPlayers()[1]);
 
-    let i;
-    for (i = 0; i < gameH.game.getGameHistory().length; i++) {
+    for (let i = 0; i < gameH.game.getGameHistory().length; i++) {
         const move: Move = gameHistory[i];
         const cell: HTMLTableCellElement = elementsH.boardTable.rows[move.getRow()].cells[move.getCol()];
-        let promise = new Promise((resolve, reject) => {
+        await new Promise((resolve, reject) => {
             setTimeout(() => {
                 repeatHistory(i, move, simGame, cell, gameH);
                 resolve();
             }, 700);
         });
-        await promise;
     }
 }
 
@@ -214,8 +204,7 @@ function repeatHistory(cellIndex: number, move: Move, simGame: Game, cell: HTMLT
 }
 
 function resetBoard(elementsH: domElementsHolder) {
-    let i, j;
-    for (i = 0; i < elementsH.boardTableCells.length; i++) {
+    for (let i = 0; i < elementsH.boardTableCells.length; i++) {
         elementsH.boardTableCells[i].textContent = "";
         (elementsH.boardTableCells[i] as HTMLTableCellElement).classList.remove("player1-sign--color");
         (elementsH.boardTableCells[i] as HTMLTableCellElement).classList.remove("player2-sign--color");

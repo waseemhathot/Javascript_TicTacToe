@@ -49,24 +49,20 @@ function startGame() {
     initGame(domGame, domElements);
 }
 function resetGame() {
-    console.log("reseting");
     location.reload();
 }
 function initGame(gameH, elementsH) {
     disableButton(elementsH.startButton);
     disableButton(elementsH.historyButton);
-    var playerName;
-    var playerSign;
-    playerName = document.querySelector('#player1-name').value;
-    playerSign = document.querySelector('#player1-sign').value;
+    var playerName = document.querySelector('#player1-name').value;
+    var playerSign = document.querySelector('#player1-sign').value;
     gameH.game.addPlayer(new Player(playerName, playerSign));
     elementsH.header.textContent = playerName + "'s Turn";
     elementsH.header.classList.add('player1-sign--color');
     playerName = document.querySelector('#player2-name').value;
     playerSign = document.querySelector('#player2-sign').value;
     gameH.game.addPlayer(new Player(playerName, playerSign));
-    var i;
-    for (i = 0; i < elementsH.boardTableCells.length; i++) {
+    for (var i = 0; i < elementsH.boardTableCells.length; i++) {
         elementsH.boardTableCells[i].addEventListener("click", function () {
             if (gameH.game.getGameWon() === false) {
                 var tableRow = (this.parentNode);
@@ -121,14 +117,12 @@ function declareWinner(gameH, elementsH, row, col) {
         elementsH.boardTable.rows[2].cells[0].classList.add("win-color");
     }
     if (gameH.game.getWinningMove() === WinningMove.col) {
-        var i = void 0;
-        for (i = 0; i < gameH.game.getRows(); i++) {
+        for (var i = 0; i < gameH.game.getRows(); i++) {
             elementsH.boardTable.rows[i].cells[col].classList.add("win-color");
         }
     }
     if (gameH.game.getWinningMove() === WinningMove.row) {
-        var i = void 0;
-        for (i = 0; i < gameH.game.getCols(); i++) {
+        for (var i = 0; i < gameH.game.getCols(); i++) {
             elementsH.boardTable.rows[row].cells[i].classList.add("win-color");
         }
     }
@@ -181,7 +175,7 @@ function playGameHistory() {
 }
 function gameHistory(gameH, elementsH) {
     return __awaiter(this, void 0, void 0, function () {
-        var gameHistory, simGame, i, _loop_1;
+        var gameHistory, simGame, _loop_1, i;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -190,20 +184,19 @@ function gameHistory(gameH, elementsH) {
                     simGame = new Game(3, 3);
                     simGame.addPlayer(gameH.game.getPlayers()[0]);
                     simGame.addPlayer(gameH.game.getPlayers()[1]);
-                    _loop_1 = function () {
-                        var move, cell, promise;
+                    _loop_1 = function (i) {
+                        var move, cell;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0:
                                     move = gameHistory[i];
                                     cell = elementsH.boardTable.rows[move.getRow()].cells[move.getCol()];
-                                    promise = new Promise(function (resolve, reject) {
-                                        setTimeout(function () {
-                                            repeatHistory(i, move, simGame, cell, gameH);
-                                            resolve();
-                                        }, 700);
-                                    });
-                                    return [4 /*yield*/, promise];
+                                    return [4 /*yield*/, new Promise(function (resolve, reject) {
+                                            setTimeout(function () {
+                                                repeatHistory(i, move, simGame, cell, gameH);
+                                                resolve();
+                                            }, 700);
+                                        })];
                                 case 1:
                                     _a.sent();
                                     return [2 /*return*/];
@@ -214,7 +207,7 @@ function gameHistory(gameH, elementsH) {
                     _a.label = 1;
                 case 1:
                     if (!(i < gameH.game.getGameHistory().length)) return [3 /*break*/, 4];
-                    return [5 /*yield**/, _loop_1()];
+                    return [5 /*yield**/, _loop_1(i)];
                 case 2:
                     _a.sent();
                     _a.label = 3;
@@ -240,8 +233,7 @@ function repeatHistory(cellIndex, move, simGame, cell, gameH) {
     }
 }
 function resetBoard(elementsH) {
-    var i, j;
-    for (i = 0; i < elementsH.boardTableCells.length; i++) {
+    for (var i = 0; i < elementsH.boardTableCells.length; i++) {
         elementsH.boardTableCells[i].textContent = "";
         elementsH.boardTableCells[i].classList.remove("player1-sign--color");
         elementsH.boardTableCells[i].classList.remove("player2-sign--color");

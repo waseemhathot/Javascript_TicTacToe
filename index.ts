@@ -1,18 +1,19 @@
 
-enum WinningMove {diagLeft, diagRight, col, row};   
-enum GameStatus {inProgress, Completed};
 
-class Move{
-    constructor(private row: number, private col: number){}
-    getRow(){
+enum WinningMove { diagLeft, diagRight, col, row };
+enum GameStatus { inProgress, Completed };
+
+class Move {
+    constructor(private row: number, private col: number) { }
+    getRow(): number {
         return this.row;
     }
 
-    getCol(){
+    getCol(): number {
         return this.col;
     }
 
-    getMoveString(){
+    getMoveString(): string {
         return `(${this.row}, ${this.col})`
     }
 }
@@ -21,11 +22,11 @@ class Player {
 
     constructor(private name: string, private role: string) { }
 
-    getName() {
+    getName(): string {
         return this.name;
     }
 
-    getRole() {
+    getRole(): string {
         return this.role;
     }
 }
@@ -34,20 +35,18 @@ class Board {
     gameBoard: string[][] = [];
 
     constructor(private rows, private cols) {
-        let i, j;
-        for (i = 0; i < rows; i++) {
+        for (let i = 0; i < rows; i++) {
             this.gameBoard[i] = [];
-            for (j = 0; j < cols; j++) {
+            for (let j = 0; j < cols; j++) {
                 this.gameBoard[i][j] = ' ';
             }
         }
     }
 
     print() {
-        let i, j;
-        for (i = 0; i < this.gameBoard.length; i++) {
+        for (let i = 0; i < this.gameBoard.length; i++) {
             let line = "|";
-            for (j = 0; j < this.gameBoard[0].length; j++) {
+            for (let j = 0; j < this.gameBoard[0].length; j++) {
                 line += `${this.gameBoard[i][j].toUpperCase()}|`;
             }
             console.log(line);
@@ -71,33 +70,6 @@ class Game {
         this.moveCounter = 0;
         this.board = new Board(rows, cols)
         this.status = GameStatus.inProgress;
-    }
-
-    getGameHistory(){
-        return this.gameHistory;
-    }
-    getMoveCounter() {
-        return this.moveCounter;
-    }
-
-    getPlayers() {
-        return this.players;
-    }
-
-    getGameWon() {
-        return this.gameWon;
-    }
-
-    getRows(){
-        return this.rows;
-    }
-
-    getCols(){
-        return this.cols;
-    }
-
-    getWinningMove(){
-        return this.winningMove;
     }
 
     addPlayer(player: Player) {
@@ -137,131 +109,147 @@ class Game {
     }
 
     isWinningMove(row: number, col: number) {
-        let moveRole: string = this.board.gameBoard[row][col];
-        let rowCheck = 0;
-        let colCheck = 0;
-        let i, j;
+        const moveRole: string = this.board.gameBoard[row][col];
 
-        if(checkRow(row, col, this, moveRole)){
+        if (this.checkRow(row, col, this, moveRole)) {
             this.winningMove = WinningMove.row;
-            return true;            
+            return true;
         }
 
-        if(checkCol(row, col, this, moveRole)){
+        if (this.checkCol(row, col, this, moveRole)) {
             this.winningMove = WinningMove.col;
-            return true;            
+            return true;
         }
 
-        if(checkDiagLeft(row, col, this, moveRole)){
+        if (this.checkDiagLeft(row, col, this, moveRole)) {
             this.winningMove = WinningMove.diagLeft;
-            return true;            
+            return true;
         }
 
-        if(checkDiagRight(row, col, this, moveRole)){
+        if (this.checkDiagRight(row, col, this, moveRole)) {
             this.winningMove = WinningMove.diagRight;
-            return true;            
+            return true;
         }
-       
+
         return false;
     }
 
     printSummary() {
-        if(this.gameWon){
-            console.log(`${GameStatus[this.status]} - ${this.gameWinner} Won`);            
+        if (this.gameWon) {
+            console.log(`${GameStatus[this.status]} - ${this.gameWinner} Won`);
         }
 
-        else if(this.moveCounter === this.rows * this.cols){
-            console.log(`${GameStatus[this.status]} - Draw`);            
+        else if (this.moveCounter === this.rows * this.cols) {
+            console.log(`${GameStatus[this.status]} - Draw`);
         }
 
-        else{
-            console.log(`${GameStatus[this.status]} - Game is in progress`);                        
+        else {
+            console.log(`${GameStatus[this.status]} - Game is in progress`);
         }
-        
-        let i;        
-        for (i = 0; i < this.moveCounter; i++) {
+
+        for (let i = 0; i < this.moveCounter; i++) {
             if (i % 2 === 0) {
                 console.log(`${this.players[0].getName()} drew ${this.players[0].getRole()} in ${this.gameHistory[i].getMoveString()}`)
             }
             else {
                 console.log(`${this.players[1].getName()} drew ${this.players[1].getRole()} in ${this.gameHistory[i].getMoveString()}`)
             }
-        }    
+        }
+    }
+
+    checkDiagLeft(row: number, col: number, game: Game, moveRole: string): boolean {
+        let counter = 1;
+        for (let i = row, j = col; i + 1 < game.getRows() && j + 1 < game.getCols(); i++ , j++) {
+            if (game.board.gameBoard[i + 1][i + 1] === moveRole) {
+                counter++;
+            }
+        }
+
+        for (let i = row, j = col; i - 1 >= 0 && j - 1 >= 0; i-- , j--) {
+            if (game.board.gameBoard[i - 1][j - 1] === moveRole) {
+                counter++;
+            }
+        }
+
+        if (counter === game.getRows()) {
+            return true;
+        }
+        return false;
+    }
+
+    checkDiagRight(row: number, col: number, game: Game, moveRole: string): boolean {
+        let counter = 1;
+        for (let i = row, j = col; i + 1 < game.getRows() && j - 1 >= 0; i++ , j--) {
+            if (game.board.gameBoard[i + 1][j - 1] === moveRole) {
+                counter++;
+            }
+        }
+
+        for (let i = row, j = col; i - 1 >= 0 && j + 1 < game.getCols(); i-- , j++) {
+            if (game.board.gameBoard[i - 1][j + 1] === moveRole) {
+                counter++;
+            }
+        }
+
+        if (counter === game.getRows()) {
+            return true;
+        }
+        return false;
+    }
+
+    checkCol(row: number, col: number, game: Game, moveRole: string): boolean {
+        let counter = 0;
+        for (let j = 0; j < game.getRows(); j++) {
+            if (game.board.gameBoard[j][col] === moveRole) {
+                counter++;
+            }
+        }
+        if (counter === game.getRows()) {
+            return true;
+        }
+        return false
+    }
+
+    checkRow(row: number, col: number, game: Game, moveRole: string): boolean {
+        let counter = 0;
+        for (let i = 0; i < game.getCols(); i++) {
+            if (game.board.gameBoard[row][i] === moveRole) {
+                counter++;
+            }
+        }
+        if (counter === game.getRows()) {
+            return true;
+        }
+        return false
+    }
+
+    getGameHistory(): Move[] {
+        return this.gameHistory;
+    }
+    getMoveCounter(): number {
+        return this.moveCounter;
+    }
+
+    getPlayers(): Player[] {
+        return this.players;
+    }
+
+    getGameWon(): boolean {
+        return this.gameWon;
+    }
+
+    getRows(): number {
+        return this.rows;
+    }
+
+    getCols(): number {
+        return this.cols;
+    }
+
+    getWinningMove(): WinningMove {
+        return this.winningMove;
     }
 }
-
-
-function checkDiagLeft(row: number, col: number, game: Game, moveRole: string): boolean{
-    let counter = 1;
-    let i: number, j:number;
-    for (i = row, j = col; i + 1 < game.getRows() && j + 1 < game.getCols(); i++ , j++) {
-        if (game.board.gameBoard[i + 1][i + 1] === moveRole) {
-            counter++;
-        }
-    }
-
-    for (i = row, j = col; i - 1 >= 0 && j - 1 >= 0; i-- , j--) {
-        if (game.board.gameBoard[i - 1][j - 1] === moveRole) {
-            counter++;
-        }
-    }
-
-    if (counter === game.getRows()) {
-        return true;
-    }
-    return false;
-}
-
-function checkDiagRight(row: number, col: number, game: Game, moveRole: string): boolean{
-    let counter = 1;
-    let i: number, j: number;
-    for (i = row, j = col; i + 1 < game.getRows() && j - 1 >= 0; i++ , j--) {
-        if (game.board.gameBoard[i + 1][j - 1] === moveRole) {
-            counter++;
-        }
-    }
-
-    for (i = row, j = col; i - 1 >= 0 && j + 1 < game.getCols(); i-- , j++) {
-        if (game.board.gameBoard[i - 1][j + 1] === moveRole) {
-            counter++;
-        }
-    }
-
-    if (counter === game.getRows()) {
-        return true;
-    }
-    return false;
-}
-
-function checkCol(row: number, col: number, game: Game, moveRole: string): boolean{
-    let j;
-    let counter = 0;
-    for (j = 0; j < game.getRows(); j++) {
-        if (game.board.gameBoard[j][col] === moveRole) {
-            counter++;
-        }
-    }
-    if (counter === game.getRows()) {
-        return true;
-    }
-    return false
-}
-
-function checkRow(row: number, col: number, game: Game, moveRole: string): boolean{
-    let i;
-    let counter = 0;
-    for (i = 0; i < game.getCols(); i++) {
-        if (game.board.gameBoard[row][i] === moveRole) {
-            counter++;
-        }
-    }
-    if (counter === game.getRows()) {
-        return true;
-    }
-    return false
-}
-    
-
 
 
 const game = new Game(3, 3); // rows count, cols count
